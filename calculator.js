@@ -2,7 +2,7 @@ const input_element = document.querySelector('.input');
 const output_operation_element = document.querySelector('.operation .value');
 const output_result_element = document.querySelector('.result .value');
 
-let calculator_buttons = [
+let calcBtns = [
   {
     name: 'delete',
     symbol: '⌫',
@@ -125,24 +125,32 @@ let data = {
   result: [],
 };
 
-calculator_buttons.forEach((btn, index) => {
+// function create the calc buttons
+function createCalcBtns() {
   const btnsPerRow = 4;
   let addedBtns = 0;
-
-  if (addedBtns % btnsPerRow === 0) {
-    input_element.innerHTML += `<div class="row"></div>`;
-  }
-  let row = document.querySelector('.row:last-child');
-  row.innerHTML += `
-  <button id="${btn.name}">
-  ${btn.symbol}
-  </button>
-  `;
-  addedBtns++;
-
-  //   row.innerHTML += `
-  //     <button id="${btn.name}">
-  //     ${btn.symbol}
-  //     </button>
-  //     `;
+  calcBtns.forEach((btn, index) => {
+    if (addedBtns % btnsPerRow === 0) {
+      input_element.innerHTML += `
+            <div class="row"></div>
+            `;
+    }
+    const row = document.querySelector('.input .row:last-child');
+    row.innerHTML += `
+        <button id="${btn.name}">
+        ${btn.symbol}
+        </button>
+        `;
+    addedBtns++;
+  });
+}
+createCalcBtns();
+//set target buttons
+input_element.addEventListener('click', (e) => {
+  const targetBtn = e.target;
+  calcBtns.forEach((btn) => {
+    if (btn.name == targetBtn.id) {
+      calc(btn);
+    }
+  });
 });
