@@ -124,3 +124,11 @@ let data = {
   operation: [],
   result: [],
 };
+
+calculator_buttons.forEach((btn, index) => {
+  row.innerHTML += `
+    <button id="${btn.name}">
+    ${btn.symbol}
+    </button>
+    `;
+});
