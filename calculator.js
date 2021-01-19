@@ -126,9 +126,23 @@ let data = {
 };
 
 calculator_buttons.forEach((btn, index) => {
+  const btnsPerRow = 4;
+  let addedBtns = 0;
+
+  if (addedBtns % btnsPerRow === 0) {
+    input_element.innerHTML += `<div class="row"></div>`;
+  }
+  let row = document.querySelector('.row:last-child');
   row.innerHTML += `
-    <button id="${btn.name}">
-    ${btn.symbol}
-    </button>
-    `;
+  <button id="${btn.name}">
+  ${btn.symbol}
+  </button>
+  `;
+  addedBtns++;
+
+  //   row.innerHTML += `
+  //     <button id="${btn.name}">
+  //     ${btn.symbol}
+  //     </button>
+  //     `;
 });
