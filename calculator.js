@@ -170,15 +170,19 @@ function calc(btn) {
             data.result.pop();
         }
     } else if (btn.type === 'calculate') {
-        // PUSH WHAT'S LEFT IN TEMP TO RESULT AND JOIN RESULT
-        let save = data.result.join('');
-        save = eval(save);
-        console.log(save);
-        updateOutputResult(save);
+        let join_result = data.result.join('');
+        console.log(join_result);
+        let result = eval(join_result);
+        result = formatResult(result);
 
-        // CLEAR ALL ARRAYS, NO NEED TO SAVE ANYTHING ANYMORE
+        console.log(result);
+        updateOutputResult(result);
         data.operation = [];
         data.result = [];
+        data.operation.push(result);
+        data.result.push(result);
+
+        return;
     }
     updateOutputOperation(data.operation.join(''));
 }
@@ -189,4 +193,21 @@ function updateOutputOperation(operation) {
 
 function updateOutputResult(result) {
     output_result_element.innerHTML = result;
+}
+// format result
+function formatResult(result) {
+    const maxOutputNumLength = 10;
+    const outputPercesion = 5;
+    if (digitCounter(result) > maxOutputNumLength) {
+        if (isFloat(result)) {} else {}
+    } else {}
+}
+// digit counter
+function digitCounter(number) {
+    return number.toString().length;
+}
+
+//check if a number is float or not
+function isFloat(num) {
+    return num % 1 !== 0;
 }
