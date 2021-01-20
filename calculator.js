@@ -171,11 +171,19 @@ function calc(btn) {
         }
     } else if (btn.type === 'calculate') {
         let join_result = data.result.join('');
-        console.log(join_result);
-        let result = eval(join_result);
+
+        let result;
+        try {
+            result = eval(join_result);
+        } catch (err) {
+            if (err instanceof SyntaxError) {
+                result = 'Syntax Error !';
+                updateOutputResult(result);
+                return;
+            }
+        }
         result = formatResult(result);
 
-        console.log(result);
         updateOutputResult(result);
         data.operation = [];
         data.result = [];
@@ -194,13 +202,26 @@ function updateOutputOperation(operation) {
 function updateOutputResult(result) {
     output_result_element.innerHTML = result;
 }
+const maxOutputNumLength = 10;
+const outputPercesion = 5;
 // format result
 function formatResult(result) {
-    const maxOutputNumLength = 10;
-    const outputPercesion = 5;
     if (digitCounter(result) > maxOutputNumLength) {
-        if (isFloat(result)) {} else {}
-    } else {}
+        if (isFloat(result)) {
+            const result_int = parseInt(result);
+            const result_int_length = digitCounter(result_int);
+            if (result_int_length > maxOutputNumLength) {
+                return result.toPrecision(outputPercesion);
+            } else {
+                const num_digits_after_point = maxOutputNumLength - result;
+                return result.toFixed(num_digits_after_point);
+            }
+        } else {
+            return result.toPrecision(outputPercesion);
+        }
+    } else {
+        return result;
+    }
 }
 // digit counter
 function digitCounter(number) {
